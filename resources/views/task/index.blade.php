@@ -28,45 +28,58 @@
                                 <th>
                                     Name
                                 </th>
-                                <th style="width: 50%">
-                                    Aaction
+                                <th style="width: 15%">
+                                   Share
+                                </th>
+                                <th style="width: 10%">
+                                    Edit
+                                </th>
+                                <th style="width: 20%">
+                                   Delete Closed
                                 </th>
 
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($tasks as $task)
+                                <tr>
+                                    <td>
+                                        {{ $task['id'] }}
+                                    </td>
+                                    <td>
+                                        {{ $task['name'] }}
+                                    </td>
 
-                                    <tr>
-                                        <td>
-                                            {{ $task['id'] }}
-                                        </td>
-                                        <td>
-                                            {{ $task['name'] }}
-                                        </td>
-
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-info btn-sm " href="{{ route('task.share', $task->id) }}">Share this
-                                                                    task</a>
-                                            <a class="btn btn-info btn-sm " href="{{ route('task.edit', $task->id) }}">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <form action="{{ route('task.destroy', $task['id']) }}" method="get"
-                                                style="display: inline-block">
-                                                @csrf
-                                                <input formaction="{{ route('task.destroy', $task['id']) }}" formmethod="get"
-                                                class="btn btn-danger btn-sm delete-btn" type="submit" value="Delete"  />
-                                                @if ($task->done ==0)
+                                    <td class="project-actions text-right">
+                                        @if ($task->user_id == Auth::user()->id)
+                                            <a class="btn btn-info btn-sm "
+                                                href="{{ route('task.share', $task->id) }}">Share this
+                                                task</a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-sm " href="{{ route('task.edit', $task->id) }}">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('task.destroy', $task['id']) }}" method="get"
+                                            style="display: inline-block">
+                                            @csrf
+                                            <input formaction="{{ route('task.destroy', $task['id']) }}" formmethod="get"
+                                                class="btn btn-danger btn-sm delete-btn" type="submit" value="Delete" />
+                                            @if ($task->done == 0)
                                                 <input formaction="{{ route('task.closed', $task['id']) }}" formmethod="get"
-                                                class="btn btn-danger btn-sm delete-btn" type="submit" value="Done and closed"  />
-                                                @endif
+                                                    class="btn btn-danger btn-sm delete-btn" type="submit"
+                                                    value="Done and closed" />
+                                            @endif
 
-                                               </form>
-                                        </td>
-                                    </tr>
-
+                                        </form>
+                                    </td>
+                                    </td>
+                                </tr>
                             @endforeach
 
 

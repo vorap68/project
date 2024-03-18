@@ -28,10 +28,13 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('task/create/{category}','App\Http\Controllers\TaskController@create')->name('task.create');
 Route::post('task/store/{category}','App\Http\Controllers\TaskController@store')->name('task.store');
 Route::get('task/show/{category}/{task}','App\Http\Controllers\TaskController@show')->name('task.show');
-Route::get('task/edit/{task}','App\Http\Controllers\TaskController@edit')->name('task.edit');
+
 Route::put('task/update/{task}','App\Http\Controllers\TaskController@update')->name('task.update');
-Route::get('task/destroy/{task}','App\Http\Controllers\TaskController@destroy')->name('task.destroy');
+
 Route::get('task/manage/{category}','App\Http\Controllers\TaskController@manage')->name('task.manage');
+Route::get('task/destroy/{task}','App\Http\Controllers\TaskController@destroy')->name('task.destroy');
+Route::get('task/edit/{task}','App\Http\Controllers\TaskController@edit')->name('task.edit');
 Route::get('task/share/{task}','App\Http\Controllers\TaskController@share')->name('task.share');
 Route::post('task/share/store/{task}','App\Http\Controllers\TaskController@shareStore')->name('task.share.store');
 Route::get('task/closed/{task}','App\Http\Controllers\TaskController@closed')->name('task.closed');
+

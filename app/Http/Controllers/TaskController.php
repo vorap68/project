@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\MyException;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Category;
 use App\Models\User;
+use App\Providers\DisconnectTaskbusy;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Exception;
+
 
 class TaskController extends Controller
 {
@@ -107,7 +111,16 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return view('task.edit', compact('task'));
+        //dd($task->busy);
+        if($task->busy == 1){
+            throw new MyException($task);
+        }else{
+            $task->update(['busy' => 1]);
+            event(new DisconnectTaskbusy($task));
+            return view('task.edit', compact('task'));
+        }
+
+
     }
 
     /**
@@ -119,10 +132,14 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $params = $request->all();
-        $task->update($params);
-        return redirect()->route('home');
-    }
+       $params = $request->all();
+      //dd($params);
+      $params['busy'] =  0;
+      $task->update($params);
+     return redirect()->route('home');
+
+
+}
 
     /**
      * Remove the specified resource from storage.
@@ -138,7 +155,7 @@ class TaskController extends Controller
 
     public function manage(Category $category)
     {
-        //$tasks_id = $category->tasks()->select('id')->where('user_id',Auth::user()->id)->get();
+
         $tasks_id = $category->tasks()->where('user_id',Auth::user()->id)->pluck('id');
         $tasksTemp = $tasks_id->toArray();
 
@@ -147,7 +164,7 @@ class TaskController extends Controller
          $tasksUsersTemp = $tasksUsers->toArray();
          $tasksEdit = array_merge( $tasksTemp,$tasksUsersTemp);
          $tasks = Task::find($tasksEdit);
-         //dd($tasks);
+
 
        return view('task.index', compact('tasks'));
     }
