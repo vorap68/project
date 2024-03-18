@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Providers\DisconnectTaskbusy;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Jobs\ClearbusyJob;
 
 class ChangeTaskbusy
 {
@@ -26,6 +27,6 @@ class ChangeTaskbusy
      */
     public function handle(DisconnectTaskbusy $event)
     {
-        dump($event->task->updated_at);
+       ClearbusyJob::dispatch($event->task)->delay(now()->addMinutes(1));
     }
 }

@@ -111,10 +111,11 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //dd($task->busy);
-        if($task->busy == 1){
+        //dump($task->busy);
+        if($task->busy == 1 && (session('tas_user_id') !=Auth::user()->id)){
             throw new MyException($task);
         }else{
+            session(['tas_user_id'=>Auth::user()->id]);
             $task->update(['busy' => 1]);
             event(new DisconnectTaskbusy($task));
             return view('task.edit', compact('task'));
