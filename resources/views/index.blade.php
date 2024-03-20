@@ -24,6 +24,12 @@
                                                     </li>
                                                 @endguest
                                                 @auth
+                                                <li class="border"><a class="dropdown-item bg-info"
+                                                    href="{{ route('task.manage', $category->id) }}">Manage tasks</a>
+                                            </li>
+
+                                            <li><a class="dropdown-item bg-info"
+                                                    href="{{ route('task.create', $category->id) }}">Add task</a></li>
                                                     @foreach ($category->tasks as $task)
                                                         {{-- <div class="border"> --}}
                                                         @include('card.task')
@@ -32,12 +38,7 @@
                                                     @endforeach
 
 
-                                                    <li class="border"><a class="dropdown-item bg-info"
-                                                            href="{{ route('task.manage', $category->id) }}">Manage tasks</a>
-                                                    </li>
 
-                                                    <li><a class="dropdown-item bg-info"
-                                                            href="{{ route('task.create', $category->id) }}">Add task</a></li>
                                                 @endauth
                                             </ul>
                                         </li>

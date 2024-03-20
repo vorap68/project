@@ -112,7 +112,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         //dump($task->busy);
-        if($task->busy == 1 && (session('tas_user_id') !=Auth::user()->id)){
+        if($task->busy == 1 && (session('tas_user_id') != Auth::user()->id)){
             throw new MyException($task);
         }else{
             session(['tas_user_id'=>Auth::user()->id]);
@@ -137,6 +137,7 @@ class TaskController extends Controller
       //dd($params);
       $params['busy'] =  0;
       $task->update($params);
+      session()->forget('tas_user_id');
      return redirect()->route('home');
 
 

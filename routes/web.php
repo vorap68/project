@@ -18,8 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('clear',function(){
+    session()->forget('tas_user_id');
+    return redirect()->route('home');
+})->name('clear');
+
 Auth::routes();
 
+Route::get('deletelogin', [App\Http\Controllers\HomeController::class, 'deleteLogin'])->name('delete.login');
  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('category',App\Http\Controllers\CategoryController::class);
 

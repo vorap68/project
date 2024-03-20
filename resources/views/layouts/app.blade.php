@@ -34,13 +34,12 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('clear') }}">Clear_Session_Task</a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -66,6 +65,9 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('delete.login') }}" onClick="return window.confirm('OK?');">
+                                     Remove your login
+                                 </a>
 
                                         <a class="dropdown-item text-decoration-underline text-danger" href="{{route('category.create')}}"
                                             role="button"  aria-expanded="false">
